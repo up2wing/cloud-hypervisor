@@ -3742,7 +3742,7 @@ impl DeviceManager {
         let vfio_device = VfioDevice::new(&device_cfg.path, Arc::clone(&vfio_container))
             .map_err(DeviceManagerError::VfioCreate)?;
 
-        if needs_dma_mapping {
+        if needs_dma_mapping || 1 == vfio_container.vfio_group_num() {
             // Register DMA mapping in IOMMU.
             // Do not register virtio-mem regions, as they are handled directly by
             // virtio-mem device itself.
